@@ -7,5 +7,17 @@ import com.example.demo.entity.Student;
 public class StudentServiceImple
 implements StudentService{
     private final Map<Long,Student>
-    store=new HashMap
+    store=new HashMap<>();
+    private long counter=1;
+
+    @Override
+    public class Student
+    insertStudent(Student st){
+        st.setId(counter++);
+        store.put(st.getId(),st);
+        return st;
+    }
+    @Override
+    public List<Student>getAllStudents(){}
+    }
 }
