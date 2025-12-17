@@ -16,7 +16,6 @@ public class Studententity {
     private String email;
 
     public Studententity() {
-        // Required by JPA
     }
 
     public Studententity(Long id, String name, String email) {
