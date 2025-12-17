@@ -13,5 +13,17 @@ import com.example.demo.service.Studentservice;
 public class Studentcontroller{
     private final Studentservice ser;
     @Autowired
-    
+    public Studentcontroller(Studentservice ser){
+        this.ser=ser;
+    }
+    @PostMapping("/add")
+    public Studentity addStudent(@RequestBody Studententity st){
+        return ser.insertStudentity(st);
+    }
+    @GetMapping("/getAll")
+    public List<Studentity>getAllStudents(){
+        return ser.getAllStudententity();
+    }
+    @GetMapping("/get/{id}")
+    public Optimal
 }
