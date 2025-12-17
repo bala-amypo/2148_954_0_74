@@ -25,5 +25,12 @@ public class Studentcontroller{
         return ser.getAllStudententity();
     }
     @GetMapping("/get/{id}")
-    public Optimal
+    public Optimal<Studententity>
+    getStudents(@PathVariable Long id){
+        return ser.getOneStudent(id);
+    }
+    @PutMapping("/update/{id}")
+    public String updateStudent(@PathVariable Long id,@RequestBody Studententity){
+        
+    }
 }
