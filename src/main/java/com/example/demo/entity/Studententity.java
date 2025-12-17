@@ -21,5 +21,12 @@ public class Studententity{
     public void setEmail(String email){
         this.email;
     }
-    
+    public Studententity(int id,String name,String email){
+        this.id=(long)id;
+        this.name=name;
+        this.email=email;
+    }
+    public.Studententity(){
+
+     }
 }
