@@ -31,6 +31,13 @@ public class Studentcontroller{
     }
     @PutMapping("/update/{id}")
     public String updateStudent(@PathVariable Long id,@RequestBody Studententity){
-        
+        Optional<Studententity>student=ser.getOneStudent(id);
+        if(student.isPresent()){
+            newStudententity.setId(id);
+            ser.insertStudententity(newStudententity);
+            return"Updated Successfully";
+        }
+        return "Id not found"
     }
+    
 }
