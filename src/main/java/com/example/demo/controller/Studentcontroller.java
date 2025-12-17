@@ -39,5 +39,16 @@ public class Studentcontroller{
         }
         return "Id not found"
     }
-    
+    @DeleteMapping("/del/{id}")
+    public String
+    deleteStudent(@PathVariable Long id)
+    {
+        Optional<Studententity>student=ser.getOneStudent(id);
+        if(student.isPresent()){
+            ser.deleteStudent(id);
+            return "Delete Successfully";
+        }
+        return "Id not found";
+    }    
+
 }
