@@ -1,44 +1,20 @@
-package com.example.demo.controller;
+package com.example.demo.config;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import java.util.List;
-import java.util.Optional;
-import org.springframework.web.bind.annotation.*;
-import com.example.demo.entity.UserEntity;
-import com.example.demo.service.UserService;
 
-@RestController
-@RequestMapping("/users")
-public class UserController {
+@Configuration
+public class SwaggerConfig {
 
-    private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-    @PostMapping
-    public UserEntity createUser(@RequestBody UserEntity user) {
-        return userService.insertUser(user);
-    }
-
-    @GetMapping
-    public List<UserEntity> getAllUsers() {
-        return userService.getAllUsers();
-    }
-
-    @GetMapping("/{id}")
-    public Optional<UserEntity> getUserById(@PathVariable Long id) {
-        return userService.getOneUser(id);
-    }
-
-    @PutMapping("/{id}")
-    public String updateUser(@PathVariable Long id, @RequestBody UserEntity user) {
-        UserEntity updated = userService.updateUser(id, user);
-        return updated != null ? "Updated Successfully ✅" : "User Not Found ❌";
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        return userService.deleteUser(id) ? "Deleted Successfully ✅" : "User Not Found ❌";
-    }
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                // You need to change the port as per your server
+                .servers(List.of(
+                        new Server().url("https://9346.pro604cr.amypo.ai/")
+                ));
+        }
 }
