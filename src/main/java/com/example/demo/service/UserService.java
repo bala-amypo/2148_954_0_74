@@ -3,15 +3,53 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.demo.entity.User;
+import org.springframework.stereotype.Service;
 
-public interface UserService {
+import com.example.demo.entity.UserEntity;
+import com.example.demo.repository.UserRepo;
 
-    User insertUser(User user);
+@Service
+public class UserService {
 
-    List<User> getAllUsers();
+    private final UserRepo userRepo;
 
-    Optional<User> getOneUser(Long id);
+    public UserService(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
-    void deleteUser(Long id);
+    // CREATE
+    public UserEntity insertUser(UserEntity user) {
+        return userRepo.save(user);
+    }
+
+    // READ ALL
+    public List<UserEntity> getAllUsers() {
+        return userRepo.findAll();
+    }
+
+    // READ ONE
+    public Optional<UserEntity> getOneUser(Long id) {
+        return userRepo.findById(id);
+    }
+
+    // UPDATE
+    public UserEntity updateUser(Long id, UserEntity newUser) {
+        return userRepo.findById(id)
+            .map(user -> {
+                user.setName(newUser.getName());
+                user.setEmail(newUser.getEmail());
+                user.setCgpa(newUser.getCgpa());
+                user.setDob(newUser.getDob());
+                return userRepo.save(user);
+            }).orElse(null);
+    }
+
+    // DELETE
+    public boolean deleteUser(Long id) {
+        if (userRepo.existsById(id)) {
+            userRepo.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }

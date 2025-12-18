@@ -5,11 +5,11 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.Vehicle;
+import com.example.demo.entity.VehicleEntity;
 import com.example.demo.service.VehicleService;
 
 @RestController
-@RequestMapping("/vehicles") // base path
+@RequestMapping("/vehicles")
 public class VehicleController {
 
     private final VehicleService vehicleService;
@@ -20,48 +20,32 @@ public class VehicleController {
 
     // CREATE
     @PostMapping
-    public Vehicle postVehicle(@RequestBody Vehicle vehicle) {
+    public VehicleEntity postVehicle(@RequestBody VehicleEntity vehicle) {
         return vehicleService.insertVehicle(vehicle);
     }
 
     // READ ALL
     @GetMapping
-    public List<Vehicle> getAll() {
+    public List<VehicleEntity> getAll() {
         return vehicleService.getAllVehicles();
     }
 
     // READ ONE
     @GetMapping("/{id}")
-    public Optional<Vehicle> getById(@PathVariable Long id) {
+    public Optional<VehicleEntity> getById(@PathVariable Long id) {
         return vehicleService.getOneVehicle(id);
     }
 
     // UPDATE
     @PutMapping("/{id}")
-    public String updateVehicle(@PathVariable Long id, @RequestBody Vehicle v) {
-        Optional<Vehicle> vehicleOpt = vehicleService.getOneVehicle(id);
-
-        if (vehicleOpt.isPresent()) {
-            Vehicle vehicle = vehicleOpt.get();
-            vehicle.setModel(v.getModel());
-            vehicle.setBrand(v.getBrand());
-            vehicle.setNumber(v.getNumber());
-
-            vehicleService.insertVehicle(vehicle);
-            return "Updated Successfully ✅";
-        }
-        return "Vehicle Not Found ❌";
+    public String updateVehicle(@PathVariable Long id, @RequestBody VehicleEntity vehicle) {
+        VehicleEntity updated = vehicleService.updateVehicle(id, vehicle);
+        return updated != null ? "Updated Successfully ✅" : "Vehicle Not Found ❌";
     }
 
     // DELETE
     @DeleteMapping("/{id}")
     public String deleteVehicle(@PathVariable Long id) {
-        Optional<Vehicle> vehicle = vehicleService.getOneVehicle(id);
-
-        if (vehicle.isPresent()) {
-            vehicleService.deleteVehicle(id);
-            return "Deleted Successfully ✅";
-        }
-        return "Vehicle Not Found ❌";
+        return vehicleService.deleteVehicle(id) ? "Deleted Successfully ✅" : "Vehicle Not Found ❌";
     }
 }
