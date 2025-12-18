@@ -1,29 +1,51 @@
-public VehicleEntity insertVehicle(VehicleEntity vehicle) {
-    return vehicleRepo.save(vehicle);
-}
+package com.example.demo.entity;
 
-public List<VehicleEntity> getAllVehicles() {
-    return vehicleRepo.findAll();
-}
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-public Optional<VehicleEntity> getOneVehicle(Long id) {
-    return vehicleRepo.findById(id);
-}
+@Entity
+public class VehicleEntity {
 
-public VehicleEntity updateVehicle(Long id, VehicleEntity newVehicle) {
-    return vehicleRepo.findById(id)
-            .map(vehicle -> {
-                vehicle.setBrand(newVehicle.getBrand());
-                vehicle.setModel(newVehicle.getModel());
-                vehicle.setYear(newVehicle.getYear());
-                return vehicleRepo.save(vehicle);
-            }).orElse(null);
-}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-public boolean deleteVehicle(Long id) {
-    if (vehicleRepo.existsById(id)) {
-        vehicleRepo.deleteById(id);
-        return true;
+    private String brand;
+    private String model;
+    private int year;
+
+    // ✅ Getters & Setters
+    public Long getId() {
+        return id;
     }
-    return false;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
 }
