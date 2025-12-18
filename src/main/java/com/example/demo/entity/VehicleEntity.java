@@ -16,7 +16,7 @@ public class VehicleEntity {
     private String model;
     private int year;
 
-    // ✅ Getters & Setters
+    // Getters & Setters
     public Long getId() {
         return id;
     }

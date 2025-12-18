@@ -16,39 +16,35 @@ public class VehicleService {
         this.vehicleRepo = vehicleRepo;
     }
 
-    // CREATE
-    public VehicleEntity insertVehicle(VehicleEntity vehicle) {
-        return vehicleRepo.save(vehicle);
+    public VehicleEntity insertVehicle(VehicleEntity newVehicle) {
+        return vehicleRepo.save(newVehicle);
     }
 
-    // READ ALL
     public List<VehicleEntity> getAllVehicles() {
         return vehicleRepo.findAll();
     }
 
-    // READ ONE
     public Optional<VehicleEntity> getOneVehicle(Long id) {
         return vehicleRepo.findById(id);
     }
 
-    // UPDATE
     public VehicleEntity updateVehicle(Long id, VehicleEntity newVehicle) {
         return vehicleRepo.findById(id)
-            .map(vehicle -> {
-                vehicle.setMake(newVehicle.getMake());
-                vehicle.setModel(newVehicle.getModel());
-                vehicle.setYear(newVehicle.getYear());
-                vehicle.setColor(newVehicle.getColor());
-                return vehicleRepo.save(vehicle);
-            }).orElse(null);
+                .map(vehicle -> {
+                    vehicle.setBrand(newVehicle.getBrand());
+                    vehicle.setModel(newVehicle.getModel());
+                    vehicle.setYear(newVehicle.getYear());
+                    return vehicleRepo.save(vehicle);
+                })
+                .orElse(null);
     }
 
-    // DELETE
     public boolean deleteVehicle(Long id) {
-        if (vehicleRepo.existsById(id)) {
-            vehicleRepo.deleteById(id);
-            return true;
-        }
-        return false;
+        return vehicleRepo.findById(id)
+                .map(vehicle -> {
+                    vehicleRepo.delete(vehicle);
+                    return true;
+                })
+                .orElse(false);
     }
 }
