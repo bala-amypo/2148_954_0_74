@@ -1,33 +1,29 @@
-package com.example.demo.entity;
+public VehicleEntity insertVehicle(VehicleEntity vehicle) {
+    return vehicleRepo.save(vehicle);
+}
 
-import jakarta.persistence.*;
+public List<VehicleEntity> getAllVehicles() {
+    return vehicleRepo.findAll();
+}
 
-@Entity
-@Table(name = "vehicles")
-public class VehicleEntity {
+public Optional<VehicleEntity> getOneVehicle(Long id) {
+    return vehicleRepo.findById(id);
+}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public VehicleEntity updateVehicle(Long id, VehicleEntity newVehicle) {
+    return vehicleRepo.findById(id)
+            .map(vehicle -> {
+                vehicle.setBrand(newVehicle.getBrand());
+                vehicle.setModel(newVehicle.getModel());
+                vehicle.setYear(newVehicle.getYear());
+                return vehicleRepo.save(vehicle);
+            }).orElse(null);
+}
 
-    private String make;
-    private String model;
-    private int year;
-    private String color;
-
-    // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getMake() { return make; }
-    public void setMake(String make) { this.make = make; }
-
-    public String getModel() { return model; }
-    public void setModel(String model) { this.model = model; }
-
-    public int getYear() { return year; }
-    public void setYear(int year) { this.year = year; }
-
-    public String getColor() { return color; }
-    public void setColor(String color) { this.color = color; }
+public boolean deleteVehicle(Long id) {
+    if (vehicleRepo.existsById(id)) {
+        vehicleRepo.deleteById(id);
+        return true;
+    }
+    return false;
 }
